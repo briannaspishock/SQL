@@ -1,4 +1,8 @@
-/* A database based on real sales from my Poshmark closet during my first month of business. Modeled through Khan Academy store database project.  */
+/* A database based on sales from my Poshmark closet during my first month of business. 
+In this SQL code, I am querying my database to show some logistics on from this month,
+where earnings are greater than $20, earnings are greater than $20 and a 5-star rating was received,
+and the total purchase price compared to my actual earnings after e-commerce fees!
+Modeled through Khan Academy store database project.  */
 
 create table Poshmark_store (id integer primary key, item text, purchase_price real, earnings real, date_purchased text, date_accepted text, buyer_rating integer);
 INSERT INTO Poshmark_store VALUES(1, "H&M Jacket with Fringe, Light Beige", 45.00, 36.00, "1/6/2021", "1/13/2021", 5);
