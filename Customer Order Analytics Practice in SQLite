@@ -47,3 +47,12 @@ from FebSales
 left join customers
 on FebSales.orderID=customers.order_id
 where FebSales.Quantity>2;
+
+#Practicing wildcards
+
+select distinct Product from FebSales 
+where Product like '%Batteries%';
+
+select distinct Product, Price
+from FebSales 
+where Price like '%.99';
