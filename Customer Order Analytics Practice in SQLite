@@ -56,3 +56,9 @@ where Product like '%Batteries%';
 select distinct Product, Price
 from FebSales 
 where Price like '%.99';
+
+#List all the products sold in Los Angeles in February, and include how many of each were sold.
+select Product, sum(quantity)
+from FebSales 
+where location like '%Los Angeles%'
+group by Product;
