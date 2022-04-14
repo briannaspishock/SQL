@@ -1,0 +1,54 @@
+# I downloaded Spotify Top 50 data from Kaggle and created a table to insert the data into.
+# I used the data to perform some analytics in SQLite Studio. 
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL)
+
+#I inserted the Spotify Data .csv into the table.
+
+#Here I am checking out a sample of the table 
+select * from Spotifydata limit 10;
+
+#I am looking for all tracks that received a popularity rating above 90 
+select artist_name, track_name, popularity from Spotifydata 
+where popularity > 90 order by popularity desc;
+
+#I am looking to see how many times Ed Sheeran had a song on the Top 50. 
+select artist_name, track_name, popularity, speechiness
+from Spotifydata
+where artist_name='Ed Sheeran';
+
+#I am looking at the average popularity and danceability for each song, sorting by artist name and track name. 
+select artist_name, track_name, avg(popularity) as avg_popularity, avg(danceability) as avg_danceability
+from Spotifydata 
+group by artist_name, track_name;
+
+#I am searching for the track names, popularity and duration of songs with an artist name like 'Doja', ordered by most popular to least. 
+
+select artist_name, track_name, popularity, duration_ms
+from Spotifydata
+where artist_name like '%Doja%'
+order by popularity desc;
+
+#I ran a query to see how many tracks have the letters 'me' somewhere in the title. 
+
+select artist_name, track_name, liveness
+from Spotifydata
+where track_name like '%me%';
