@@ -1,0 +1,95 @@
+#Here are the answers to Break Into Tech's Final SQL Project
+#I am using SQLite and a provided database chinook to query
+
+#Show Customers (their full names, customer ID, and country) who are not in the US.
+
+select CustomerId, FirstName, LastName, Country
+from customers
+where Country <> "USA"
+
+#Show only the Customers from Brazil.
+
+select *
+from customers
+where Country = "Brazil"
+
+#Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+
+select customers.CustomerId, customers.FirstName, customers.LastName, 
+invoices.InvoiceId, invoices.InvoiceDate, invoices.BillingCountry
+from customers
+left join invoices on invoices.CustomerId = customers.CustomerId
+where customers.Country = "Brazil"
+
+#Show the Employees who are Sales Agents.
+
+select *
+from employees
+where title = "Sales Support Agent"
+
+#Find a unique/distinct list of billing countries from the Invoice table.
+
+select distinct invoices.BillingCountry
+from invoices
+
+#Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+
+select invoices.Total, customers.FirstName, customers.LastName, customers.Country, 
+employees.FirstName, employees.LastName
+from invoices
+join customers on customers.CustomerId=invoices.CustomerId
+join employees on employees.EmployeeId = customers.SupportRepId
+where employees.Title = "Sales Support Agent"
+
+#How many Invoices were there in 2009? 83
+
+select count(*)
+from invoices
+where invoices.InvoiceDate like "%2009%"
+
+#What are the total sales for 2009? 449.4600000000003
+
+select sum(invoices.Total)
+from invoices
+where invoices.InvoiceDate like "%2009%"
+
+
+#Write a query that includes the purchased track name with each invoice line item.
+
+select tracks.Name, invoice_items.InvoiceLineId
+from tracks
+join invoice_items
+on tracks.TrackId = invoice_items.TrackId
+
+#Write a query that includes the purchased track name AND artist name with each invoice line item.
+
+select tracks.Name, tracks.Composer, invoice_items.InvoiceLineId
+from tracks
+join invoice_items
+on tracks.TrackId = invoice_items.TrackId
+
+#Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+
+select tracks.Name, albums.Title, media_types.Name, genres.Name
+from tracks
+join albums on albums.AlbumId = tracks.AlbumId
+join media_types on media_types.MediaTypeId = tracks.MediaTypeId
+join genres on genres.GenreId = tracks.GenreId
+
+#Show the total sales made by each sales agent.
+
+select round(sum(invoices.Total)) as total_sales, employees.FirstName, employees.LastName
+from invoices
+join customers on customers.CustomerId = invoices.InvoiceId
+join employees on employees.EmployeeId = customers.SupportRepId
+where employees.Title = "Sales Support Agent"
+group by employees.LastName
+
+#Which sales agent made the most in sales in 2009? Jane	Peacock
+
+select round(sum(invoices.Total)) as total_sales, employees.FirstName, employees.LastName
+from invoices
+join customers on customers.CustomerId = invoices.InvoiceId
+join employees on employees.EmployeeId = customers.SupportRepId
+where employees.Title = "Sales Support Agent"
+group by employees.LastName order by total_sales desc limit 1
